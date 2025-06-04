@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>给你的浪漫生日祝福</title>
+    <title>浪漫生日祝福</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #ff99ee 0%, #fad0c4 100%);
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
             margin: 0;
             padding: 0;
             height: 100vh;
@@ -18,6 +18,7 @@
             text-align: center;
             overflow: hidden;
         }
+        
         .container {
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 20px;
@@ -28,24 +29,33 @@
             position: relative;
             overflow: hidden;
         }
+        
         h1 {
             color: #ff6b6b;
             margin-bottom: 20px;
         }
+        
         p {
             font-size: 18px;
             line-height: 1.6;
             margin-bottom: 20px;
         }
+        
         .heart {
             position: absolute;
             pointer-events: none;
             animation: float 4s ease-in-out infinite;
         }
+        
         @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(10deg); }
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+            }
         }
+        
         .btn {
             background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
             color: white;
@@ -58,24 +68,12 @@
             transition: all 0.3s;
             box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
         }
+        
         .btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(255, 107, 107, 0.6);
         }
-        .photo-frame {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            overflow: hidden;
-            border: 5px solid #ff6b6b;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        .photo-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        
         .hidden-message {
             display: none;
             margin-top: 20px;
@@ -84,34 +82,58 @@
             border-radius: 10px;
             animation: fadeIn 1s;
         }
+        
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
+        }
+        
+        .name-input {
+            margin: 15px 0;
+            padding: 10px;
+            width: 80%;
+            border: 2px solid #ff6b6b;
+            border-radius: 8px;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="photo-frame">
-            <img src="https://source.unsplash.com/random/300x300/?birthday,cake" alt="生日照片">
-        </div>
-        <h1>生日快乐！🎉</h1>
-        <p>亲爱的朋友，</p>
-        <p>在这个特别的日子里，愿所有的幸福、所有的快乐、所有的温馨、所有的好运都围绕在你身边！</p>
-        <p>愿你的每一天都如今天般灿烂美好！</p>
+        <h1 id="birthdayTitle">生日快乐！🎉</h1>
+        
+        <input type="text" 
+               class="name-input" 
+               id="nameInput" 
+               placeholder="输入寿星名字" 
+               value="亲爱的朋友">
+               
+        <p id="greetingText">在这个特别的日子里，愿所有的幸福、所有的快乐、所有的温馨、所有的好运都围绕在你身边！</p>
         
         <button class="btn" id="showMessage">点击查看特别祝福</button>
         
         <div class="hidden-message" id="specialMessage">
             <h3>✨ 特别的祝福 ✨</h3>
-            <p>生命中最美好的事情之一就是能够认识你，</p>
-            <p>在你生日这天，我想告诉你：</p>
-            <p>你让这个世界变得更加美好！</p>
+            <p id="personalMessage">生命中最美好的事情之一就是能够认识你，</p>
             <p>愿你的新一岁充满爱、欢笑和梦想成真！</p>
         </div>
     </div>
 
     <script>
+        // 获取DOM元素
+        const nameInput = document.getElementById('nameInput');
+        const birthdayTitle = document.getElementById('birthdayTitle');
+        const greetingText = document.getElementById('greetingText');
+        const personalMessage = document.getElementById('personalMessage');
+        
+        // 实时更新名字
+        nameInput.addEventListener('input', function() {
+            const name = this.value || '亲爱的朋友';
+            birthdayTitle.textContent = `${name}，生日快乐！🎉`;
+            greetingText.textContent = `${name}，在这个特别的日子里，愿所有的幸福、所有的快乐、所有的温馨、所有的好运都围绕在你身边！`;
+            personalMessage.textContent = `生命中最美好的事情之一就是能够认识${name}，`;
+        });
+
         // 创建漂浮的心形
         function createHearts() {
             const colors = ['#ff6b6b', '#ff8e8e', '#ffb3b3', '#ffd8d8'];
@@ -145,7 +167,7 @@
         
         // 点击页面任意处创建小心心
         document.addEventListener('click', function(e) {
-            if (e.target.id !== 'showMessage') {
+            if (e.target.id !== 'showMessage' && e.target.id !== 'nameInput') {
                 const heart = document.createElement('div');
                 heart.innerHTML = '❤';
                 heart.className = 'heart';
